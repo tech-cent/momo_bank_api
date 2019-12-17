@@ -1,4 +1,5 @@
 # momo_bank_api
+[![Build Status](https://travis-ci.org/tech-cent/momo_bank_api.svg?branch=dev)](https://travis-ci.org/tech-cent/momo_bank_api)
 
 #### Requirements to run application.
 - Python > 3.5
