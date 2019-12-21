@@ -3,11 +3,13 @@ astroid==2.3.3
 coverage==5.0
 Django==3.0
 djangorestframework==3.11.0
+djangorestframework-simplejwt==4.4.0
 gunicorn==20.0.4
 isort==4.3.21
 lazy-object-proxy==1.4.3
 mccabe==0.6.1
 psycopg2-binary==2.8.4
+PyJWT==1.7.1
 pylint==2.4.4
 python-dotenv==0.10.3
 pytz==2019.3

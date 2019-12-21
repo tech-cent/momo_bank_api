@@ -25,6 +25,5 @@ class UserSerializer(serializers.Serializer):
         user.phone_number = validated_data.get('phone_number')
         user.nin = validated_data.get('nin')
         user.dob = validated_data.get('dob')
-        user.is_active = False
         user.save()
         return user
