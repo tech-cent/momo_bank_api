@@ -37,6 +37,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'bank.apps.BankConfig',
     'authentication.apps.AuthenticationConfig',
     'rest_framework',
     'django.contrib.admin',
