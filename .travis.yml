@@ -10,8 +10,11 @@ before_script:
 - psql -c 'create database momo_bank;' -U postgres
 - python manage.py makemigrations
 - python manage.py migrate
+- curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+- chmod +x ./cc-test-reporter
+- ./cc-test-reporter before-build
 script:
 - coverage run --source="." manage.py test
 - coverage report -m
 after_success:
-- coveralls
+- ./cc-test-reporter upload-coverage
