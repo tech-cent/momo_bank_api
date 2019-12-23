@@ -46,3 +46,14 @@ class BankTestCase(BaseTestCase):
         self.add_token(self.token)
         response = self.client.post(url, incomplete_bank, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_get_banks(self):
+        """
+        Endpoint should return a list
+        """
+        url = reverse('bank:base')
+        self.add_token(self.token)
+        self.client.post(url, bank_1, format='json')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertGreater(len(response.data), 0)
