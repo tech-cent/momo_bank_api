@@ -37,6 +37,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'account.apps.AccountConfig',
     'bank.apps.BankConfig',
     'authentication.apps.AuthenticationConfig',
     'rest_framework',
