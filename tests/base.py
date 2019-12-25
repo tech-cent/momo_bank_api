@@ -1,5 +1,8 @@
-from rest_framework.test import APITestCase
 from django.urls import reverse
+from rest_framework.test import APITestCase
+
+from account.models import Account
+from bank.models import Bank
 
 
 class BaseTestCase(APITestCase):
@@ -27,3 +30,11 @@ class BaseTestCase(APITestCase):
         url = reverse('authentication:login')
         response = self.client.post(url, user, format='json')
         return response.data['access']
+
+    @staticmethod
+    def create_bank(bank_details):
+        """
+        creates an instance of Bank
+        using the given bank details which is a dictionary
+        """
+        return Bank.objects.create(**bank_details)
