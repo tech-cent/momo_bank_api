@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from account.models import Account
 from account.serializers import AccountSerializer
 
 
@@ -30,4 +31,21 @@ class AccountView(APIView):
         """
         accounts = request.user.account_set.all()
         serializer = AccountSerializer(accounts, many=True)
+        return Response(serializer.data)
+
+
+class AccountDetail(APIView):
+    """
+    Accounts against a particular account.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        """
+        return a single account given its pk
+        """
+        account = Account.objects.get(id=pk)
+        if account.user != request.user:
+            return Response('Unauthorized', status=status.HTTP_401_UNAUTHORIZED)
+        serializer = AccountSerializer(account)
         return Response(serializer.data)
