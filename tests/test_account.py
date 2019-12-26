@@ -20,19 +20,12 @@ class AccountTestCase(BaseTestCase):
         self.token_2 = self.login_user(user_2_login)
         self.base_url = reverse('account:base')
         self.bank = self.create_bank(bank_1)
-    
-    def create_account(self, account_details):
-        """
-        create an account by posting the create account endpoint
-        """
-        self.add_token(self.token)
-        return self.client.post(self.base_url, account_details, format='json')
 
     def test_create_account(self):
         """
         Ensure logged in user can create account
         """
-        response = self.create_account(account_1(self.bank))
+        response = self.create_account(account_1(self.bank), self.token, self.base_url)
         accounts = Account.objects.all()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertGreater(len(accounts), 0)
@@ -41,7 +34,7 @@ class AccountTestCase(BaseTestCase):
         """
         Ensure a missing field results in a 400 error.
         """
-        response = self.create_account(incomplete_account(self.bank))
+        response = self.create_account(incomplete_account(self.bank), self.token, self.base_url)
         accounts = Account.objects.all()
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(len(accounts), 0)
@@ -51,7 +44,7 @@ class AccountTestCase(BaseTestCase):
         Endpoint should return a list of accounts
         """
         self.add_token(self.token)
-        self.create_account(account_1(self.bank))
+        self.create_account(account_1(self.bank), self.token, self.base_url)
         response = self.client.get(self.base_url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertGreater(len(response.data), 0)
@@ -60,7 +53,7 @@ class AccountTestCase(BaseTestCase):
         """
         Endpoint should return a single object
         """
-        account = self.create_account(account_1(self.bank))
+        account = self.create_account(account_1(self.bank), self.token, self.base_url)
         url = reverse('account:detail', kwargs={'pk': account.data['id']})
         self.add_token(self.token)
         response = self.client.get(url)
@@ -71,7 +64,7 @@ class AccountTestCase(BaseTestCase):
         User should not be able to check account
         belonging to another user
         """
-        account = self.create_account(account_1(self.bank))
+        account = self.create_account(account_1(self.bank), self.token, self.base_url)
         url = reverse('account:detail', kwargs={'pk': account.data['id']})
         self.add_token(self.token_2)
         response = self.client.get(url)

@@ -38,3 +38,10 @@ class BaseTestCase(APITestCase):
         using the given bank details which is a dictionary
         """
         return Bank.objects.create(**bank_details)
+
+    def create_account(self, account_details, token, url):
+        """
+        create an account by posting the create account endpoint
+        """
+        self.add_token(token)
+        return self.client.post(url, account_details, format='json')
