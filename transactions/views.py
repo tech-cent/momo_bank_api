@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from transactions.serializers import TransactionSerializer
+from transactions.models import Transaction
 
 
 class TransactionView(APIView):
@@ -24,3 +25,11 @@ class TransactionView(APIView):
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request):
+        """
+        Return all transactions in the system.
+        """
+        transactions = Transaction.objects.all()
+        serializer = TransactionSerializer(transactions, many=True)
+        return Response(serializer.data)
