@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 
 from account.models import Account
 from account.serializers import AccountSerializer
+from transactions.serializers import TransactionSerializer
 
 
 class AccountView(APIView):
@@ -46,6 +47,26 @@ class AccountDetail(APIView):
         """
         account = Account.objects.get(id=pk)
         if account.user != request.user:
-            return Response('Unauthorized', status=status.HTTP_401_UNAUTHORIZED)
+            return Response(
+                'Unauthorized', status=status.HTTP_401_UNAUTHORIZED)
         serializer = AccountSerializer(account)
+        return Response(serializer.data)
+
+
+class AccountTransactions(APIView):
+    """
+    Return all transactions on a given account
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        """
+        return all transactions on a given account
+        """
+        account = Account.objects.get(id=pk)
+        transactions = account.transaction_set.all()
+        if account.user != request.user:
+            return Response(
+                'Unauthorized', status=status.HTTP_401_UNAUTHORIZED)
+        serializer = TransactionSerializer(transactions, many=True)
         return Response(serializer.data)
