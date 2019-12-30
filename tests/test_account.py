@@ -25,7 +25,8 @@ class AccountTestCase(BaseTestCase):
         """
         Ensure logged in user can create account
         """
-        response = self.create_account(account_1(self.bank), self.token, self.base_url)
+        response = self.create_account(
+            account_1(self.bank), self.token, self.base_url)
         accounts = Account.objects.all()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertGreater(len(accounts), 0)
@@ -34,7 +35,8 @@ class AccountTestCase(BaseTestCase):
         """
         Ensure a missing field results in a 400 error.
         """
-        response = self.create_account(incomplete_account(self.bank), self.token, self.base_url)
+        response = self.create_account(
+            incomplete_account(self.bank), self.token, self.base_url)
         accounts = Account.objects.all()
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(len(accounts), 0)
@@ -53,7 +55,8 @@ class AccountTestCase(BaseTestCase):
         """
         Endpoint should return a single object
         """
-        account = self.create_account(account_1(self.bank), self.token, self.base_url)
+        account = self.create_account(
+            account_1(self.bank), self.token, self.base_url)
         url = reverse('account:detail', kwargs={'pk': account.data['id']})
         self.add_token(self.token)
         response = self.client.get(url)
@@ -64,7 +67,8 @@ class AccountTestCase(BaseTestCase):
         User should not be able to check account
         belonging to another user
         """
-        account = self.create_account(account_1(self.bank), self.token, self.base_url)
+        account = self.create_account(
+            account_1(self.bank), self.token, self.base_url)
         url = reverse('account:detail', kwargs={'pk': account.data['id']})
         self.add_token(self.token_2)
         response = self.client.get(url)

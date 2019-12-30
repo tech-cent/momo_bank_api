@@ -22,7 +22,7 @@ class TransactionsTestCase(BaseTestCase):
         self.account_url = reverse('account:base')
         self.bank = self.create_bank(bank_1)
         self.account = self.create_account(account_1(self.bank), self.token, self.account_url)
-    
+ 
     def test_deposit_transaction(self):
         """
         Ensure the transaction model proper increments balance
@@ -54,7 +54,7 @@ class TransactionsTestCase(BaseTestCase):
         transaction.calculate_new_balance()
         transaction.save()
         self.assertEqual(transaction.new_balance, 5000)
-    
+
     def test_post_transaction(self):
         """
         Ensure api can create a transaction given a post request
@@ -81,9 +81,26 @@ class TransactionsTestCase(BaseTestCase):
         Endpoint should return a list of transactions
         """
         url = reverse('transactions:base')
-        transaction = sample_transaction(self.account.data['id'], 'deposit', 10000)
+        transaction = sample_transaction(
+            self.account.data['id'], 'deposit', 10000)
         self.add_token(self.token)
         self.client.post(url, transaction, format='json')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertGreater(len(response.data), 0)
+
+    def test_get_account_transactions(self):
+        """
+        Endpoint should return a list of transactions belonging
+        to a particular account
+        """
+        url = reverse('transactions:base')
+        transaction = sample_transaction(
+            self.account.data['id'], 'deposit', 10000)
+        self.add_token(self.token)
+        self.client.post(url, transaction, format='json')
+        url = reverse(
+            'account:transactions', kwargs={'pk': self.account.data['id']})
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertGreater(len(response.data), 0)
