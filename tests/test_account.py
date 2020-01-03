@@ -39,7 +39,6 @@ class AccountTestCase(BaseTestCase):
             incomplete_account(self.bank), self.token, self.base_url)
         accounts = Account.objects.all()
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(len(accounts), 0)
 
     def test_get_accounts(self):
         """
