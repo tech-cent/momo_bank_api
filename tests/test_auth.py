@@ -2,6 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 
 from authentication.models import User
+from account.models import Account
 from tests.base import BaseTestCase
 from tests.sample_data.authentication import (incomplete_user, user_1,
                                               user_1_login, user_duplicate_nin)
@@ -13,7 +14,10 @@ class AuthTests(BaseTestCase):
         Ensure user can create account
         """
         response = self.signup_user(user_1)
+        user = User.objects.get(phone_number=user_1['phone_number'])
+        accounts = user.account_set.all()
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertGreater(len(accounts), 0)
 
     def test_duplicate_account(self):
         """
