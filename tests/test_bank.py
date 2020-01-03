@@ -57,3 +57,11 @@ class BankTestCase(BaseTestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertGreater(len(response.data), 0)
+
+    def test_default_bank(self):
+        """
+        Default bank is added upon setup
+        """
+        bank = Bank.objects.get(name="Momo Bank")
+        self.assertEqual(bank.country, 'Uganda')
+        self.assertEqual(bank.tin, 'tinNo')
