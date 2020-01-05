@@ -5,3 +5,7 @@ def sample_transaction(account_id, transaction_type, amount):
         "amount": amount
     }
     return transaction_dic
+
+update_transaction = {
+    "status":"success"
+}
