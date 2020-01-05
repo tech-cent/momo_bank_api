@@ -3,12 +3,13 @@ from rest_framework import status
 
 from account.models import Account
 from authentication.models import User
-from transactions.models import Transaction
 from tests.base import BaseTestCase
 from tests.sample_data.account import account_1
 from tests.sample_data.authentication import user_1, user_1_login
 from tests.sample_data.bank import bank_1
-from tests.sample_data.transactions import sample_transaction
+from tests.sample_data.transactions import (sample_transaction,
+                                            update_transaction)
+from transactions.models import Transaction
 
 
 class TransactionsTestCase(BaseTestCase):
@@ -104,3 +105,34 @@ class TransactionsTestCase(BaseTestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertGreater(len(response.data), 0)
+
+    def test_get_single_transaction(self):
+        """
+        Endpoint should return a single transaction
+        """
+        url = reverse('transactions:base')
+        transaction = sample_transaction(
+            self.account.data['id'], 'deposit', 10000)
+        self.add_token(self.token)
+        transaction = self.client.post(url, transaction, format='json') 
+        url = reverse(
+            'transactions:detail', kwargs={'pk': transaction.data['id']})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_update_transaction(self):
+        """
+        Add ability to update a single transcation
+        """
+        url = reverse('transactions:base')
+        transaction = sample_transaction(
+            self.account.data['id'], 'deposit', 10000)
+        self.add_token(self.token)
+        transaction = self.client.post(url, transaction, format='json') 
+        url = reverse(
+            'transactions:detail', kwargs={'pk': transaction.data['id']})
+        response = self.client.put(url, update_transaction, format='json')
+        account = Account.objects.get(id=self.account.data['id'])
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data['status'], 'success')
+        self.assertEqual(account.balance, 10000)

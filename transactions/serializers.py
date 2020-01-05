@@ -22,7 +22,7 @@ class TransactionSerializer(serializers.ModelSerializer):
             'account'
         ]
         read_only_fields = [
-            'id', 'prev_balance', 'new_balance', 'status', 'created_by'
+            'id', 'prev_balance', 'new_balance', 'created_by'
         ]
     
     def create(self, validated_data):
@@ -36,3 +36,8 @@ class TransactionSerializer(serializers.ModelSerializer):
         transaction.created_by = validated_data.get('user')
         transaction.save()
         return transaction
+
+    def update(self, instance, validated_data):
+        instance.status = validated_data.get('status', instance.status)
+        instance.save()
+        return instance
