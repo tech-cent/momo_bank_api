@@ -7,6 +7,6 @@ from authentication import views
 app_name = "authentication"
 urlpatterns = [
     path('signup/', views.UserView.as_view(), name='signup'),
-    path('login/', TokenObtainPairView.as_view(), name='login'),
+    path('login/', views.CustomTokenObtainPairView.as_view(), name='login'),
     path('login/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
