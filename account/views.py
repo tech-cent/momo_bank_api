@@ -1,5 +1,5 @@
 from django.db import IntegrityError
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -45,7 +45,7 @@ class AccountDetail(APIView):
         """
         return a single account given its pk
         """
-        account = Account.objects.get(id=pk)
+        account = get_object_or_404(Account, id=pk)
         if account.user != request.user:
             return Response(
                 'Unauthorized', status=status.HTTP_401_UNAUTHORIZED)
@@ -63,7 +63,7 @@ class AccountTransactions(APIView):
         """
         return all transactions on a given account
         """
-        account = Account.objects.get(id=pk)
+        account = get_object_or_404(Account, id=pk)
         transactions = account.transaction_set.all()
         if account.user != request.user:
             return Response(

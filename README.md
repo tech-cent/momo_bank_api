@@ -5,6 +5,7 @@
 
 #### Demo links
 - Backend hosted on heroku. - `https://momobank.herokuapp.com/`
+- Link to Swagger docs. -  `https://momobank.herokuapp.com/swagger/`
 
 #### Requirements to run application.
 - Python >= 3.5
@@ -35,7 +36,7 @@
 |`GET` /transactions/| Return all transactions.| Returns all transactions in the db.|
 |`GET` /transactions/[transaction_id]/| View a single transaction. | Detail view of a single transaction. |
 |`PUT` /transactions/[transaction_id]/| Update a single transaction. | Update a transaction status to successful. |
-Link to Swagger docs. `https://momobank.herokuapp.com/swagger/`
+
 
 ## Built With
 

@@ -106,6 +106,15 @@ class TransactionsTestCase(BaseTestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertGreater(len(response.data), 0)
 
+    def test_account_404_transactions(self):
+        """
+        Ensure account not existing returns a 404 not a 500
+        """
+        url = reverse(
+            'account:transactions', kwargs={'pk': 100})
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+    
     def test_get_single_transaction(self):
         """
         Endpoint should return a single transaction

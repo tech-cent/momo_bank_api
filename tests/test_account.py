@@ -61,6 +61,16 @@ class AccountTestCase(BaseTestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_non_existing_account(self):
+        """
+        Endpoint should return a 404 error
+        for accounts that do not exist
+        """
+        url = reverse('account:detail', kwargs={'pk': 100})
+        self.add_token(self.token)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
     def test_unauthorized_access_to_account(self):
         """
         User should not be able to check account
