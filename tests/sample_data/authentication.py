@@ -1,5 +1,5 @@
 user_1 = {
-    "phone_number": "25670000000",
+    "phone_number": "256780000000",
     "password": "thisIs6@5",
     "first_name": "John",
     "last_name": "Doe",
@@ -8,7 +8,7 @@ user_1 = {
 }
 
 user_duplicate_nin = {
-    "phone_number": "25670000002",
+    "phone_number": "256780000020",
     "password": "thisIs6@5",
     "first_name": "John",
     "last_name": "Doe",
@@ -17,7 +17,7 @@ user_duplicate_nin = {
 }
 
 incomplete_user = {
-    "phone_number": "25670000002",
+    "phone_number": "256780000020",
     "password": "thisIs6@5",
     "first_name": "John",
     "dob": "1995-04-22",
@@ -25,11 +25,11 @@ incomplete_user = {
 }
 
 user_1_login = {
-    "phone_number": "25670000000",
+    "phone_number": "256780000000",
     "password": "thisIs6@5",
 }
 user_2 = {
-    "phone_number": "2567000001",
+    "phone_number": "25678000010",
     "password": "thisIs6@5",
     "first_name": "Jane",
     "last_name": "Doe",
@@ -37,6 +37,6 @@ user_2 = {
     "nin": "userNinNumbe2"
 }
 user_2_login = {
-    "phone_number": "2567000001",
+    "phone_number": "25678000010",
     "password": "thisIs6@5",
 }

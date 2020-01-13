@@ -16,7 +16,8 @@ class Transaction(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def calculate_new_balance(self):
-        if self.type == 'deposit':
+        type = self.type.lower()
+        if type == 'deposit':
             self.new_balance = self.prev_balance + self.amount
-        if self.type == 'withdraw':
+        if type == 'withdraw':
             self.new_balance = self.prev_balance - self.amount

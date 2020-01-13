@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 
 from transactions.serializers import TransactionSerializer
 from transactions.models import Transaction
+from utils.payment import Payment
 
 
 class TransactionView(APIView):
@@ -23,6 +24,14 @@ class TransactionView(APIView):
         serializer = TransactionSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user)
+            phone_number = request.user.phone_number
+            amount = serializer.data['amount']
+            payment = Payment(
+                phone_number,
+                amount,
+                serializer.data['id'],
+                serializer.data['type'])
+            payment.execute()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -47,13 +56,14 @@ class TransactionDetail(APIView):
         transaction = get_object_or_404(Transaction, pk=pk)
         serializer = TransactionSerializer(transaction)
         return Response(serializer.data)
-    
+
     def put(self, request, pk):
         """
         update a transaction
         """
         transaction = get_object_or_404(Transaction, pk=pk)
-        serializer = TransactionSerializer(transaction, data=request.data, partial=True)
+        serializer = TransactionSerializer(
+            transaction, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
