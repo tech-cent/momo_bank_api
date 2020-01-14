@@ -3,6 +3,7 @@ astroid==2.3.3
 autopep8==1.4.4
 certifi==2019.11.28
 chardet==3.0.4
+Click==7.0
 coreapi==2.3.3
 coreschema==0.0.4
 coverage==5.0
@@ -20,7 +21,9 @@ Jinja2==2.10.3
 lazy-object-proxy==1.4.3
 MarkupSafe==1.1.1
 mccabe==0.6.1
+mtnmomo==3.0.1
 packaging==20.0
+phonenumbers==8.11.1
 psycopg2-binary==2.8.4
 pycodestyle==2.5.0
 PyJWT==1.7.1
@@ -28,12 +31,12 @@ pylint==2.4.4
 pyparsing==2.4.6
 python-dotenv==0.10.3
 pytz==2019.3
-requests==2.22.0
+requests==2.21.0
 ruamel.yaml==0.16.5
 ruamel.yaml.clib==0.2.0
 six==1.13.0
 sqlparse==0.3.0
 typed-ast==1.4.0
 uritemplate==3.0.1
-urllib3==1.25.7
+urllib3==1.24.3
 wrapt==1.11.2

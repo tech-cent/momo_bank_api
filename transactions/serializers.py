@@ -24,7 +24,7 @@ class TransactionSerializer(serializers.ModelSerializer):
         read_only_fields = [
             'id', 'prev_balance', 'new_balance', 'created_by'
         ]
-    
+
     def create(self, validated_data):
         account = validated_data.get('account')
         transaction = Transaction()
