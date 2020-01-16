@@ -53,3 +53,16 @@ class AuthTests(BaseTestCase):
         url = reverse('authentication:login')
         response = self.client.post(url, user_1_login, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_profile(self):
+        """
+        Profile endpoint should return user's details
+        """
+        self.signup_user(user_1)
+        token = self.login_user(user_1_login)
+        self.add_token(token)
+        url = reverse('authentication:profile')
+        response = self.client.get(url)
+        user_data = response.data
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(user_data['phone_number'], user_1['phone_number'])
