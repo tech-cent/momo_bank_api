@@ -37,7 +37,6 @@ class AccountTestCase(BaseTestCase):
         """
         response = self.create_account(
             incomplete_account(self.bank), self.token, self.base_url)
-        accounts = Account.objects.all()
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_get_accounts(self):
