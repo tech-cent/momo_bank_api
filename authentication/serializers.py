@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .models import User
+from utils.validate_phonenumber import is_phonenumber_valid
 
 
 class UserSerializer(serializers.Serializer):
@@ -13,6 +14,14 @@ class UserSerializer(serializers.Serializer):
     last_name = serializers.CharField(required=True)
     nin = serializers.CharField(required=True)
     dob = serializers.DateField(required=True)
+
+    def validate(self, attrs):
+        """
+        Add custom validations
+        """
+        if not is_phonenumber_valid(attrs['phone_number']):
+            raise serializers.ValidationError('Invalid phone number')
+        return attrs
 
     def create(self, validated_data):
         """

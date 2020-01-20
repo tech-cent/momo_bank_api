@@ -1,11 +1,12 @@
 from django.urls import reverse
 from rest_framework import status
 
-from authentication.models import User
 from account.models import Account
+from authentication.models import User
 from tests.base import BaseTestCase
-from tests.sample_data.authentication import (incomplete_user, user_1,
-                                              user_1_login, user_duplicate_nin)
+from tests.sample_data.authentication import (incomplete_user, short_number,
+                                              user_1, user_1_login,
+                                              user_duplicate_nin, wrong_number)
 
 
 class AuthTests(BaseTestCase):
@@ -66,3 +67,17 @@ class AuthTests(BaseTestCase):
         user_data = response.data
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(user_data['phone_number'], user_1['phone_number'])
+
+    def test_wrong_number(self):
+        """
+        Any number that is not mtn should return 400 error
+        """
+        response = self.signup_user(wrong_number)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_number_length(self):
+        """
+        Ensure phone numbers != 12 digits return 400 error
+        """
+        response = self.signup_user(short_number)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
