@@ -173,5 +173,6 @@ FRONTEND_URL = os.environ.get('FRONTEND_URL')
 CORS_ORIGIN_WHITELIST = (
     'http://0.0.0.0:3000',
     'http://localhost:3000',
-    FRONTEND_URL,
+    f'http://{FRONTEND_URL}',
+    f'https://{FRONTEND_URL}',
 )
