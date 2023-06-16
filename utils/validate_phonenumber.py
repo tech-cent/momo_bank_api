@@ -1,6 +1,6 @@
 import re
 
-def is_phonenumber_valid(phone_number):
+def is_phonenumber_valid(phone_number: str) -> bool:
     """
     Checks if phone number is valid
     """
