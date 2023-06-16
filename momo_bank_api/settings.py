@@ -176,3 +176,4 @@ CORS_ORIGIN_WHITELIST = (
     f'http://{FRONTEND_URL}',
     f'https://{FRONTEND_URL}',
 )
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
